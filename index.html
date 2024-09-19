@@ -1,24 +1,83 @@
-<!-- CRUD
-	C - CREATE
-	R - READ (VIEW)
-	U - UPDATE (EDIT/CHANGE)
-	D - DELETE
--->
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CRUD Application</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>API</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+		* {
+			font-family: "Open Sans", sans-serif;
+		}
+		body {
+			background-image: url("https://images.rawpixel.com/image_social_landscape/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L3JtMjEtcGQtc2FzaS0wMy1qb2I1OTguanBn.jpg");
+			background-size: cover;
+			background-attachment: fixed;
+		}
+		.animals {
+			width: 100%;
+			display: flex;
+		}
+
+		.animal {
+			width: 30%;
+			box-shadow: 10px 10px 10px rgba(0,0,0,0.3);
+			border-radius: 1rem;
+			padding: 0.51rem;
+			margin: 2rem;
+			background-color: white;
+			text-align: center;
+			border: 1px solid black;
+		}
+
+		.animal img {
+			width: 100%;
+			border-radius: 1rem;
+		}
+
+		@media (max-width: 1000px) {
+			.animal {
+				margin: 0.51rem;
+				margin-bottom: 2rem;
+				width: 90%;
+			}
+		}
+	</style>
 </head>
 <body>
-	<h1 id="heading">CRUD APPLICATION</h1>
-	<div id = "view" ></div>
-	<script type="text/javascript" src="script.js"></script>
-	<div id="form">
-	 	<input type="text" id="name" placeholder="Name"><br>
-	 	<input type="text" id="scname" placeholder="Scientific Name"><br>
-	 	<input type="text" id="img" placeholder="Image Link"><br>
-	 	<button onclick= "createData()">Create</button>
-	</div>
+	<center>
+		<h1>WILDLIFE GIFOGRAPHY (API)</h1>
+		<div id="animals"></div>
+	</center>
+	<script type="text/javascript">
+        var html = "";
+		function createhtml(data){
+            const view = document.getElementById("animals");
+            data.forEach(element => {
+                console.log(element)
+                html += `<div class="animal"><h1> ${element.name}</h1>
+                <img src= ${element.imgUrl}>
+                <span>${element.scname} </span></div>`
+            });
+            view.innerHTML = html;
+        }
+        fetch("https://wild-gifs.onrender.com/animals").
+        then(Response => {
+            console.log(Response)
+            if(Response.ok){
+                    return Response.json();
+            }
+        }
+        )
+        .then(res => {
+            createhtml(res)
+        })
+        .catch(
+            Error =>{
+                console.log("error occured")
+            }
+        );
+
+	</script>
 </body>
 </html>
